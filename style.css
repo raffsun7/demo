@@ -1,0 +1,1253 @@
+/* --- Modern Glassmorphism Base --- */
+:root {
+  --primary: #5a1c1c; /* Darker red/maroon for primary elements */
+  --primary-solid: #401414; /* Even darker for solid accents */
+  --secondary: #a33f3f; /* Lighter red/maroon for secondary elements */
+  --accent: #ffb86c; /* Warm orange/peach accent */
+  --text: hsl(0, 0%, 95%); /* Light text */
+  --text-dark: hsl(0, 0%, 20%); /* Dark text */
+  --glass-light: rgba(255, 255, 255, 0.15); /* Lighter glass effect */
+  --glass-dark: rgba(0, 0, 0, 0.1); /* Darker glass effect */
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow */
+  --border-radius: 12px; /* Slightly smaller border-radius for less modernity */
+  --border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  --blur: blur(8px); /* Slightly less blur */
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- Base Styles with New Theme --- */
+body {
+  background: #722323; /* New background color */
+  font-family: 'Atma', cursive; /* Kept from original */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background-attachment: fixed;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* --- PIN Login Page Styles (Adapted from CodePen) --- */
+#pin-modal {
+  display: flex; /* Ensure it's a flex container for centering */
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Darker overlay for focus */
+  z-index: 1002; /* Higher z-index */
+  /* These will be set by JS classList.add('active') */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#pin-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#pin-modal .modal-content {
+    --form-bg: #282828; /* Dark background for the form */
+    --form-border: #621e1e; /* Border color */
+    --text-color: #f0f0f0; /* Light text */
+    --input-bg: #3a3a3a; /* Input background */
+    --input-border: #621e1e; /* Input border */
+    --button-bg: #722323; /* Button background */
+    --button-hover-bg: #5a1c1c; /* Button hover background */
+    --error-color: #ff4d4d; /* Error message color */
+
+    background: var(--form-bg);
+    padding: 2.5em; /* Adjusted padding */
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    max-width: 380px; /* Adjusted max-width */
+    width: 90%; /* Ensure responsiveness */
+    border: 1px solid var(--form-border);
+    text-align: center;
+    position: relative;
+    color: var(--text-color);
+    transform: scale(0.9); /* Start smaller for animation */
+    opacity: 0;
+    animation: scaleIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes scaleIn {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#pin-modal h2 {
+    font-family: 'Atma', cursive; /* Kept fancy font for title */
+    font-size: 2.8rem; /* Adjusted font size */
+    margin-bottom: 0.8em; /* Adjusted margin */
+    color: #ffb86c; /* Accent color for the title */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Stronger text shadow */
+    letter-spacing: 1px;
+}
+
+#pin-modal p#pin-error-message {
+    font-family: 'Atma', cursive; /* Match Atma font */
+    font-size: 0.9em;
+    margin-top: 15px;
+    color: var(--error-color);
+    font-weight: bold;
+}
+
+#pin-modal .form-group {
+    margin-bottom: 1.5em; /* Spacing for form elements */
+}
+
+#pin-modal label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    color: var(--text-color);
+    font-weight: normal;
+}
+
+#pin-modal input[type="password"] {
+    width: 100%;
+    padding: 0.8em 1em; /* Adjusted padding */
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 5px; /* Slightly more rounded */
+    font-size: 1.3em; /* Larger font for PIN */
+    color: var(--text-color);
+    text-align: center;
+    font-family: 'Special Elite', monospace; /* Monospace for PIN input */
+    letter-spacing: 2px; /* Spacing for PIN */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#pin-modal input[type="password"]:focus {
+    outline: none;
+    border-color: var(--accent); /* Accent color on focus */
+    box-shadow: 0 0 0 3px rgba(255, 184, 108, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#pin-modal button#submit-pin-btn {
+    width: 100%;
+    padding: 0.9em 1.5em; /* Adjusted padding */
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+#pin-modal button#submit-pin-btn:hover {
+    background: var(--button-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+#pin-modal button#submit-pin-btn:active {
+    transform: translateY(0);
+}
+
+
+/* --- Ensure app-container is hidden by default and only shown after login --- */
+#app-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 100px 20px 60px;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* --- Floating Action Buttons (Themed) --- */
+.add-photo-btn, .create-collection-btn {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  background: var(--accent); /* Accent color */
+  backdrop-filter: var(--blur); /* Kept glassmorphism effect */
+  -webkit-backdrop-filter: var(--blur);
+  color: white; /* White icon for contrast */
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  z-index: 1000;
+  transition: var(--transition);
+  transform: translateY(0);
+}
+
+.add-photo-btn {
+  top: 25px;
+  right: 25px;
+}
+
+.create-collection-btn {
+  top: 25px;
+  left: 25px;
+}
+
+.add-photo-btn:hover, .create-collection-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+  background: #ffaa4c; /* Slightly lighter accent on hover */
+}
+
+.add-photo-btn:active, .create-collection-btn:active {
+  transform: translateY(1px);
+}
+
+/* --- Glass Modals (Themed) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+  backdrop-filter: blur(6px); /* Less blur */
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.9); /* Lighter, less "glassy" background */
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Softer border */
+  padding: 25px; /* Reduced padding */
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 450px; /* Slightly narrower */
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Adjusted shadow */
+  text-align: center;
+  transform: scale(0.95);
+  opacity: 0;
+  animation: modalAppear 0.3s ease forwards;
+  color: var(--text-dark); /* Ensure text is visible in light modal */
+}
+
+@keyframes modalAppear {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px; /* Adjusted position */
+  right: 15px; /* Adjusted position */
+  font-size: 24px; /* Slightly smaller */
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--primary); /* Themed color */
+  transition: var(--transition);
+  width: 32px; /* Smaller hit area */
+  height: 32px; /* Smaller hit area */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.05); /* Softer hover background */
+  transform: rotate(90deg);
+}
+
+.modal-content h2 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.2rem; /* Slightly smaller */
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--primary-solid);
+  text-shadow: none; /* Removed text shadow */
+}
+
+/* --- Form Elements (Themed) --- */
+.form-group {
+  margin-bottom: 18px; /* Slightly reduced margin */
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px; /* Slightly reduced margin */
+  font-weight: bold;
+  color: var(--text-dark);
+  font-size: 1rem; /* Slightly smaller font */
+}
+
+.form-group input[type="file"],
+.form-group textarea,
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px 12px; /* Reduced padding */
+  background: #f8f8f8; /* Solid light background */
+  border: 1px solid #ddd; /* Simple border */
+  border-radius: 6px; /* Simpler rounded corners */
+  font-size: 15px; /* Slightly smaller font */
+  font-family: 'Atma', cursive;
+  transition: all 0.2s ease; /* Faster transition */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Softer shadow */
+}
+
+.form-group input[type="file"]:focus,
+.form-group textarea:focus,
+.form-group input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent); /* Accent border on focus */
+  background: #fff;
+  border-color: var(--accent);
+}
+
+/* --- Tag Buttons in Upload Modal (NEW) --- */
+.tag-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: center; /* Center tags */
+}
+
+.tag-button {
+    padding: 6px 12px;
+    border: 1px solid var(--secondary);
+    border-radius: 20px; /* Pill shape */
+    background: transparent;
+    color: var(--text-dark);
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Atma', cursive;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.tag-button:hover {
+    background: var(--secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tag-button.selected {
+    background: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+
+/* --- Custom File Input (Themed) --- */
+.form-group input[type="file"] {
+  padding: 8px; /* Reduced padding */
+  cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+  padding: 7px 10px; /* Reduced padding */
+  background: var(--secondary); /* Secondary theme color */
+  border: none;
+  border-radius: 6px; /* Simpler rounded corners */
+  color: white;
+  font-family: 'Atma', cursive;
+  cursor: pointer;
+  transition: all 0.2s ease; /* Faster transition */
+  margin-right: 8px; /* Reduced margin */
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background: #bb5555; /* Slightly darker secondary on hover */
+}
+
+/* --- Buttons (Themed) --- */
+.modal-content button[type="submit"] {
+  width: 100%;
+  padding: 12px; /* Reduced padding */
+  background: var(--primary); /* Primary theme color */
+  color: white;
+  border: none;
+  border-radius: 6px; /* Simpler rounded corners */
+  font-size: 16px; /* Slightly smaller font */
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease; /* Faster transition */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Softer shadow */
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content button[type="submit"]:hover {
+  transform: translateY(-1px); /* Less dramatic hover */
+  background: var(--primary-solid); /* Darker on hover */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.modal-content button[type="submit"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); /* Softer gradient */
+  opacity: 0;
+  transition: all 0.2s ease; /* Faster transition */
+}
+
+.modal-content button[type="submit"]:hover::after {
+  opacity: 1;
+}
+
+.upload-progress {
+  margin-top: 12px; /* Reduced margin */
+  text-align: center;
+  font-weight: bold;
+  color: var(--primary-solid);
+  font-size: 1rem; /* Slightly smaller font */
+}
+
+/* --- Confirmation Modal (Themed) --- */
+.modal-actions {
+  margin-top: 20px; /* Reduced margin */
+  display: flex;
+  justify-content: center;
+  gap: 12px; /* Reduced gap */
+}
+
+.modal-actions button {
+  padding: 10px 25px; /* Reduced padding */
+  border: none;
+  border-radius: 6px; /* Simpler rounded corners */
+  font-size: 15px; /* Slightly smaller font */
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Atma', cursive;
+  transition: all 0.2s ease; /* Faster transition */
+  min-width: 100px; /* Reduced min-width */
+}
+
+.modal-actions .btn-secondary {
+  background: #e0e0e0; /* Lighter background */
+  color: var(--text-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions .btn-secondary:hover {
+  background: #d0d0d0; /* Darker on hover */
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.modal-actions .btn-danger {
+  background: #c84040; /* Stronger red for danger */
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-actions .btn-danger:hover {
+  background: #a83030; /* Darker red on hover */
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* --- App Container (Original, but specific gallery styles will override) --- */
+#app-container.authenticated {
+    display: flex;
+}
+
+/* --- Collection Grid Titles (Themed) --- */
+.page-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem; /* Slightly smaller */
+  color: white;
+  margin-bottom: 0;
+  text-align: center;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); /* Softer shadow */
+  position: relative;
+  display: inline-block;
+  margin-top: 0;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; /* Adjusted position */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%; /* Slightly narrower */
+  height: 2px; /* Thinner line */
+  background: rgba(255, 255, 255, 0.4); /* Softer white */
+  border-radius: 2px;
+}
+
+.page-description {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem; /* Slightly smaller */
+  color: #ffb86c; /* Accent color for description */
+  margin-bottom: 30px; /* Reduced margin */
+  text-align: center;
+  opacity: 1;
+  font-weight: 600;
+}
+
+.loading-text {
+  color: white;
+  font-size: 1.1rem; /* Slightly smaller */
+  text-align: center;
+  width: 100%;
+  padding: 15px; /* Reduced padding */
+  background: rgba(255, 255, 255, 0.1); /* Lighter background */
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(4px); /* Less blur */
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* --- Collections Grid (Themed & Cute) --- */
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly wider min-width for larger cards */
+  gap: 30px; /* Increased gap for more breathing room */
+  width: 100%;
+  max-width: 1200px; /* Wider max-width */
+  padding: 0 20px; /* Adjusted padding */
+  justify-content: center;
+}
+
+.collection-card {
+  background: #d5d5d5f0; /* Very light, soft background */
+  border: 1px solid rgba(255, 255, 255, 0.8); /* Finer, more delicate border */
+  border-radius: 18px; /* More rounded, "cute" corners */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Softer, slightly diffused shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 25px; /* More padding for a substantial feel */
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  min-height: 220px; /* Increased min-height */
+  overflow: hidden;
+  transform: translateY(0);
+  will-change: transform, box-shadow; /* Optimize for animation */
+  animation: floatIn 0.5s ease forwards; /* Reuse floatIn */
+  animation-delay: calc(var(--order) * 0.1s); /* Staggered appearance */
+  opacity: 0; /* Hidden initially for floatIn */
+}
+
+/* Remove or soften ::before pseudo-element for collection cards if it creates a busy look */
+.collection-card::before {
+  content: none; /* Removed the previous diagonal gradient */
+}
+/* No specific ::after for collection cards, relying on content */
+
+.collection-card:hover {
+  transform: translateY(-8px) scale(1.03); /* More pronounced lift and slight scale */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Stronger but still soft shadow on hover */
+}
+
+.collection-card h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem; /* Larger, more prominent title */
+  margin: 15px 0 8px; /* Adjusted margins */
+  color: var(--primary-solid); /* Keeps the strong theme color */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.5px; /* Subtle spacing */
+}
+
+.collection-short-description { /* NEW STYLE */
+    font-family: 'Atma', cursive;
+    font-size: 1rem;
+    color: var(--text-dark); /* Dark text for readability */
+    margin: -5px 0 10px 0; /* Adjust margin to sit closer to title */
+    padding: 0 5px;
+    text-align: center;
+    line-height: 1.4;
+    max-height: 3em; /* Limit height to 3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+}
+
+.collection-photo-count { /* Existing class, but adjusted to sit below description */
+  font-family: 'Atma', cursive; /* Match Atma for consistency */
+  font-size: 1.1rem; /* Slightly larger, clearer photo count */
+  color: var(--secondary); /* Themed color, more distinct */
+  margin: 0; /* Reset margin from previous general p tag */
+  opacity: 0.9; /* More visible */
+  position: relative;
+  z-index: 1;
+  font-weight: 500;
+  margin-top: 10px; /* Added margin from description */
+}
+
+/* --- Collection Cover Image Container (Themed & Cute) --- */
+.collection-cover {
+  width: 100%;
+  height: auto;
+  min-height: 150px; /* Increased min-height for cover area */
+  max-height: 200px; /* Set a max-height */
+  overflow: hidden;
+  border-radius: 12px; /* Nicely rounded for cuteness */
+  margin-bottom: 15px; /* Adjusted margin */
+  position: relative;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Softer, subtle shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0; /* Light background for empty covers */
+}
+
+.collection-cover img {
+  width: 100%;
+  height: 100%; /* Fill the container */
+  object-fit: cover; /* Crop to fill, maintain aspect ratio */
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover .collection-cover img {
+  transform: scale(1.05); /* Gentle zoom on hover */
+}
+
+.collection-placeholder {
+  width: 100%;
+  height: 150px; /* Fixed height for placeholder */
+  /* Remove padding-bottom: 56.25% */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)); /* Retained for a soft feel */
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary); /* Themed color */
+  font-size: 3rem; /* Larger icon for placeholder */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); /* Very subtle inset shadow */
+  position: relative;
+}
+
+.collection-placeholder::before {
+  content: '\f030'; /* Camera icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  opacity: 0.4; /* Softer opacity */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* --- Photo Gallery Container Styling (from index2.html, themed) --- */
+.photo-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 30px 15px; /* Reduced padding */
+    min-height: 100vh;
+    z-index: 30;
+    background: transparent;
+    animation: slideFadeIn 0.8s ease-out both; /* Faster animation */
+    width: 100%;
+}
+
+/* Gallery Title (from index2.html, themed) */
+.gallery-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem; /* Slightly smaller */
+    color: white;
+    margin-bottom: 15px; /* Reduced margin */
+    text-align: center;
+}
+
+/* Gallery Description (from index2.html, themed) */
+.gallery-des {
+    font-family: 'Great Vibes', cursive;
+    color: #ffb86c; /* Accent color */
+    margin-bottom: 40px; /* Reduced margin */
+    font-size: 1.8rem; /* Slightly smaller */
+    text-align: center;
+}
+
+/* Masonry-like Grid for Gallery Images (from index2.html, themed) */
+.gallery-grid {
+    column-count: 3;
+    column-gap: 20px; /* Reduced gap */
+    width: 100%;
+    max-width: 1000px; /* Slightly narrower */
+    padding: 0 15px; /* Reduced padding */
+}
+
+/* Individual Gallery Card (Image Container) (from index2.html, themed) */
+.gallery-card {
+    position: relative;
+    background: #fdfdfd; /* Near white background */
+    border-radius: 8px; /* Simpler rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Faster transition */
+    padding: 12px; /* Reduced padding */
+    border: 1px solid #eee; /* Softer border */
+    margin-bottom: 20px; /* Reduced margin */
+    break-inside: avoid;
+    width: 100%;
+    margin-top: 40px; /* Reduced margin */
+    transform: rotate(1deg); /* Less dramatic rotation */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Pseudo-element for the hanging string/tape effect (top) (themed) */
+.gallery-card::after {
+    content: '';
+    position: absolute;
+    width: 40px; /* Smaller tape */
+    height: 20px; /* Smaller tape */
+    left: 50%;
+    top: -35px; /* Adjusted position */
+    transform: translateX(-50%) rotate(-8deg); /* Less dramatic rotation */
+    background: rgba(255, 190, 80, 0.3); /* Themed tape color */
+    border-left: 1px dashed rgba(0, 0, 0, 0.08); /* Softer dashed line */
+    border-right: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+/* Pseudo-element for the hanging string/tape effect (vertical line) (themed) */
+.gallery-card::before {
+    content: '';
+    position: absolute;
+    width: 1.2px; /* Thinner line */
+    height: 35px; /* Shorter line */
+    background: #999; /* Darker grey for string */
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+/* Alternate rotation for cards to make it more dynamic (themed) */
+.gallery-card:nth-child(2n) {
+    transform: rotate(-1deg);
+}
+.gallery-card:nth-child(2n)::after {
+    transform: translateX(-50%) rotate(8deg);
+}
+
+/* Hover effect for gallery cards (themed) */
+.gallery-card:hover {
+    transform: translateY(-5px) rotate(0deg); /* Less dramatic lift and straighten */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Softer shadow on hover */
+}
+
+/* Image within the gallery card (themed) */
+.gallery-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out; /* Faster transition */
+    box-shadow: none;
+}
+
+/* Class added when lazy image is loaded */
+.gallery-card img.loaded {
+    opacity: 1;
+}
+
+/* Photo Tags Container (NEW) */
+.photo-tags-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align tags to the left */
+    gap: 5px; /* Small gap between tags */
+    margin-top: 10px; /* Space from image */
+    padding: 0 8px; /* Match photo caption padding */
+}
+
+/* Individual Photo Tag Styles (NEW) */
+.photo-tag {
+    padding: 3px 8px;
+    border-radius: 12px; /* Pill shape */
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    white-space: nowrap;
+    text-transform: capitalize; /* Capitalize first letter */
+    /* Default fallback color */
+    background-color: #888;
+}
+
+/* Specific colors for different tags */
+.tag-sunny { background-color: #ffc107; color: #333; } /* Yellowish */
+.tag-happy { background-color: #28a745; } /* Green */
+.tag-playful { background-color: #6f42c1; } /* Purple */
+.tag-romantic { background-color: #dc3545; } /* Red */
+.tag-sad { background-color: #6c757d; } /* Grey */
+.tag-event { background-color: #007bff; } /* Blue */
+.tag-nature { background-color: #20c997; } /* Teal */
+.tag-family { background-color: #fd7e14; } /* Orange */
+.tag-friends { background-color: #17a2b8; } /* Cyan */
+.tag-travel { background-color: #6610f2; } /* Indigo */
+
+
+/* Photo Caption (themed) */
+.photo-caption {
+    margin-top: 10px; /* Reduced margin */
+    font-size: 1.3rem; /* Slightly smaller */
+    color: var(--text-dark);
+    font-family: 'Atma', cursive; /* Kept */
+    text-align: center;
+    padding: 0 8px; /* Reduced padding */
+    white-space: pre-wrap;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+/* Small text within gallery grid (themed) */
+.gallery-grid small {
+    font-size: .8rem; /* Slightly larger */
+    font-weight: 400;
+    color: var(--secondary); /* Themed color */
+    margin-top: 5px; /* Added margin */
+}
+
+/* --- Delete Collection Icon (Themed) --- */
+.collection-card .delete-collection-icon {
+  position: absolute;
+  top: 12px; /* Adjusted position */
+  right: 12px; /* Adjusted position */
+  width: 30px; /* Smaller */
+  height: 30px; /* Smaller */
+  background: rgba(255, 255, 255, 0.8); /* Less opaque */
+  color: #c84040; /* Themed red */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px; /* Smaller icon */
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 10;
+  border: 1px solid rgba(255, 107, 107, 0.2); /* Softer border */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); /* Softer shadow */
+}
+
+.collection-card:hover .delete-collection-icon {
+  opacity: 1;
+}
+
+.delete-collection-icon:hover {
+  background: #c84040;
+  color: white;
+  transform: scale(1.08); /* Less dramatic scale */
+}
+
+/* --- Delete Icon for Photos (Themed) --- */
+.delete-icon {
+  position: absolute;
+  top: 8px; /* Adjusted position */
+  right: 8px; /* Adjusted position */
+  width: 30px; /* Smaller */
+  height: 30px; /* Smaller */
+  background: rgba(255, 255, 255, 0.8);
+  color: #c84040;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: var(--transition);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.gallery-card:hover .delete-icon {
+  opacity: 1;
+}
+
+.delete-icon:hover {
+  background: #c84040;
+  color: white;
+  transform: scale(1.08);
+}
+
+/* --- Back Button (Themed) --- */
+.back-btn {
+  position: fixed;
+  top: 20px; /* Adjusted position */
+  left: 20px; /* Adjusted position */
+  background: rgba(255, 255, 255, 0.85); /* Slightly less opaque */
+  backdrop-filter: blur(4px); /* Less blur */
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--text-dark);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Softer border */
+  border-radius: 8px; /* Less rounded */
+  padding: 10px 15px; /* Reduced padding */
+  font-size: 0.95rem; /* Slightly smaller font */
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  transition: var(--transition);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reduced gap */
+  font-weight: bold;
+}
+
+.back-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.back-btn:active {
+  transform: translateY(0);
+}
+
+/* --- Lightbox (Themed) --- */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.85); /* Slightly less opaque */
+  backdrop-filter: blur(8px); /* Less blur */
+  -webkit-backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.25s ease; /* Faster transition */
+}
+
+.lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  margin: auto;
+  display: block;
+  max-width: 90%; /* Wider */
+  max-height: 85%; /* Taller */
+  border-radius: 6px; /* Less rounded */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Softer shadow */
+  animation: zoomIn 0.25s ease forwards; /* Faster animation */
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; } /* Less dramatic scale */
+  to { transform: scale(1); opacity: 1; }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 25px; /* Adjusted position */
+  right: 35px; /* Adjusted position */
+  color: #f1f1f1;
+  font-size: 36px; /* Slightly smaller */
+  font-weight: bold;
+  transition: var(--transition);
+  cursor: pointer;
+  width: 45px; /* Smaller hit area */
+  height: 45px; /* Smaller hit area */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+  color: #ff8e8e; /* Lighter red on hover */
+  background: rgba(255, 255, 255, 0.08); /* Softer hover background */
+  transform: rotate(90deg);
+}
+
+/* --- Floating Particles Background (Original) --- */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5); /* Slightly less opaque */
+  border-radius: 50%;
+  animation: float 18s infinite linear; /* Slower float */
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1200px) rotate(720deg); /* Longer float distance */
+    opacity: 0;
+  }
+}
+
+/* --- Animations (Original) --- */
+@keyframes floatIn {
+  0% {
+    transform: translateY(15px); /* Less dramatic */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Specific fade-in animation for the gallery content (from index2.html, themed) */
+@keyframes slideFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px); /* Less dramatic */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply floatIn to collection cards, not gallery cards (adjusting from original) */
+.collection-card {
+  animation: floatIn 0.4s ease forwards; /* Faster animation */
+  animation-delay: calc(var(--order) * 0.08s); /* Faster delay increment */
+  opacity: 0;
+}
+
+/* Bengali font for captions (from index2.html) */
+.bangla-word:lang(bn) {
+    font-family: "Atma", system-ui;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Responsive adjustments (original and merged from index2.html) */
+@media (max-width: 992px) {
+  .photo-grid { /* Original, but gallery-grid now active */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted min-width */
+  }
+  
+  .collections-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjusted min-width */
+  }
+  
+  .page-title { /* Original */
+    font-size: 2.5rem; /* Adjusted */
+  }
+  
+  .page-description { /* Original */
+    font-size: 1.6rem; /* Adjusted */
+  }
+  .gallery-grid { /* From index2.html */
+      column-count: 2;
+      column-gap: 15px; /* Reduced gap */
+  }
+}
+
+@media (max-width: 768px) {
+  .add-photo-btn, .create-collection-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .create-collection-btn {
+    left: 20px;
+  }
+  
+  .modal-content {
+    padding: 20px; /* Reduced */
+  }
+  
+  .modal-content h2 {
+    font-size: 2rem; /* Reduced */
+  }
+  
+  .back-btn {
+    top: 15px; /* Adjusted */
+    left: 15px; /* Adjusted */
+    padding: 8px 12px; /* Adjusted */
+    font-size: 0.9rem;
+  }
+  
+  .lightbox-close {
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .photo-grid { /* Original */
+    grid-template-columns: 1fr;
+  }
+  
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  #app-container {
+    padding: 80px 10px 40px; /* Adjusted */
+  }
+  
+  .page-title { /* Original */
+    font-size: 2rem; /* Adjusted */
+  }
+  
+  .page-description { /* Original */
+    font-size: 1.3rem; /* Adjusted */
+    margin-bottom: 25px; /* Adjusted */
+  }
+  
+  .modal-content {
+    width: 95%;
+    padding: 15px; /* Reduced */
+  }
+  
+  .collection-card, .gallery-card {
+    padding: 15px; /* Reduced */
+  }
+  
+  .add-photo-btn, .create-collection-btn {
+    width: 40px; /* Smaller */
+    height: 40px; /* Smaller */
+    font-size: 16px; /* Smaller */
+    top: 10px; /* Adjusted */
+    right: 10px; /* Adjusted */
+  }
+  
+  .create-collection-btn {
+    left: 10px; /* Adjusted */
+  }
+  
+  .back-btn {
+    top: 10px; /* Adjusted */
+    left: 10px; /* Adjusted */
+    padding: 6px 10px; /* Adjusted */
+  }
+  
+  .lightbox-content {
+    max-width: 95%;
+    max-height: 70%;
+  }
+
+  .gallery-grid { /* From index2.html */
+      column-count: 1;
+  }
+}
+
+
+
+
+/* For Webkit-based browsers (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make it transparent */
+}
+::-webkit-scrollbar-thumb {
+    background: transparent; /* Optional: just make it transparent */
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: none; /* "none" to hide it completely */
+}
+
+/* For Internet Explorer and Edge (older versions) */
+body {
+    -ms-overflow-style: none; /* Hide scrollbar */
+}
+
+/* Apply to specific elements if needed, e.g., a div with class .my-scrollable-content */
+.my-scrollable-content {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.my-scrollable-content::-webkit-scrollbar {
+    width: 0; /* Webkit */
+    background: transparent;
+}
+.my-scrollable-content::-webkit-scrollbar-thumb {
+    background: transparent;
+}

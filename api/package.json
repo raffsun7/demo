@@ -1,0 +1,8 @@
+{
+  "name": "dynamic-photo-gallery",
+  "version": "1.0.0",
+  "description": "A secure photo gallery with Firebase and ImageKit",
+  "dependencies": {
+    "imagekit": "^5.0.1"
+  }
+}
