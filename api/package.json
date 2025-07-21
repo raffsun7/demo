@@ -1,0 +1,7 @@
+{
+  "name": "imagekit",
+  "version": "1.0.0",
+  "dependencies": {
+    "imagekit": "^5.0.1"
+  }
+}
