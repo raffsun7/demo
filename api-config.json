@@ -1,0 +1,13 @@
+{
+  "imagekit": {
+    "public_key": "YOUR_IMAGEKIT_PUBLIC_KEY",
+    "private_key": "YOUR_IMAGEKIT_PRIVATE_KEY", 
+    "url_endpoint": "https://ik.imagekit.io/YOUR_IMAGEKIT_ID"
+  },
+  "cors": {
+    "allowed_origins": ["*"],
+    "allowed_methods": ["GET", "POST", "DELETE", "OPTIONS"],
+    "allowed_headers": ["Content-Type", "Authorization"]
+  }
+}
+

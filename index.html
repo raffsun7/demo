@@ -1,15 +1,629 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Private Gallery Vault - Sacred Memory Sanctuary</title>
-    <meta name="description" content="A secure, emotionally intelligent vault for your most precious memories. Built for two souls, protected by trust." />
-    <meta name="theme-color" content="#1a1a2e" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteNest - Your Pookie Notes & Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pookie-pink': '#FF6B9D',
+                        'pookie-purple': '#9B59B6',
+                        'pookie-blue': '#74B9FF',
+                        'pookie-mint': '#00CEC9',
+                        'pookie-peach': '#FDCB6E',
+                        'pookie-lavender': '#A29BFE',
+                        'pookie-rose': '#FD79A8',
+                        'pookie-cream': '#FFEAA7',
+                        'pookie-coral': '#FF7675',
+                        'pookie-sage': '#00B894'
+                    },
+                    fontFamily: {
+                        'pookie': ['Nunito', 'sans-serif'],
+                        'emoji': ['Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'bounce-soft': 'bounce-soft 2s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'sparkle': 'sparkle 1.5s ease-in-out infinite',
+                        'slide-up': 'slide-up 0.3s ease-out',
+                        'fade-in': 'fade-in 0.5s ease-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'bounce-soft': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' }
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.8' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        },
+                        sparkle: {
+                            '0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+                            '50%': { transform: 'scale(1.1) rotate(180deg)' }
+                        },
+                        'slide-up': {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        'fade-in': {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles/pookie-style.css">
+</head>
+<body class="font-pookie bg-gradient-to-br from-pookie-cream via-pookie-rose to-pookie-lavender min-h-screen transition-all duration-500">
+    <!-- Floating Hearts Background -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="heart-float absolute top-10 left-10 text-pookie-pink text-2xl animate-float font-emoji">💕</div>
+        <div class="heart-float absolute top-20 right-20 text-pookie-purple text-xl animate-bounce-soft font-emoji">💖</div>
+        <div class="heart-float absolute bottom-20 left-20 text-pookie-coral text-lg animate-pulse-soft font-emoji">💗</div>
+        <div class="heart-float absolute bottom-10 right-10 text-pookie-mint text-2xl animate-wiggle font-emoji">💝</div>
+        <div class="heart-float absolute top-1/2 left-1/4 text-pookie-peach text-sm animate-sparkle font-emoji">✨</div>
+        <div class="heart-float absolute top-1/3 right-1/3 text-pookie-lavender text-sm animate-float font-emoji">🌸</div>
+    </div>
+
+    <!-- Login Screen (Initially visible) -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center relative z-10">
+        <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4 border-2 border-pookie-pink/20 relative overflow-hidden">
+            <!-- Decorative elements -->
+            <div class="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-pookie-pink to-pookie-purple rounded-full animate-bounce-soft"></div>
+            <div class="absolute -bottom-2 -left-2 w-6 h-6 bg-gradient-to-br from-pookie-mint to-pookie-blue rounded-full animate-pulse-soft"></div>
+            
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pookie-pink to-pookie-purple rounded-full mb-4 shadow-lg animate-float">
+                    <i class="fas fa-heart text-white text-2xl"></i>
+                </div>
+                <h1 class="text-4xl font-bold bg-gradient-to-r from-pookie-pink to-pookie-purple bg-clip-text text-transparent mb-2">
+                    Welcome to NoteNest
+                </h1>
+                <p class="text-gray-600 text-lg">Your pookie notes & gallery await! <span class="font-emoji">🌸</span></p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div class="relative">
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-pookie-pink"></i>Email Address
+                    </label>
+                    <input type="email" id="email" required 
+                           class="w-full px-4 py-3 border-2 border-pookie-pink/30 rounded-2xl focus:ring-4 focus:ring-pookie-pink/20 focus:border-pookie-pink transition-all duration-300 bg-white/90"
+                           placeholder="Enter your pookie email">
+                    <div class="absolute -top-1 -right-1 text-pookie-pink text-xs animate-sparkle font-emoji">✨</div>
+                </div>
+
+                <div class="relative">
+                    <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-pookie-purple"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="password" required 
+                               class="w-full px-4 py-3 border-2 border-pookie-purple/30 rounded-2xl focus:ring-4 focus:ring-pookie-purple/20 focus:border-pookie-purple transition-all duration-300 bg-white/90 pr-12"
+                               placeholder="Enter your secret password">
+                        <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-pookie-purple hover:text-pookie-pink transition-colors">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                    <div class="absolute -top-1 -right-1 text-pookie-purple text-xs animate-sparkle font-emoji">💖</div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="hidden bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-2xl">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span id="errorText">Oops! Something went wrong</span>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" id="loginButton" 
+                        class="w-full bg-gradient-to-r from-pookie-pink to-pookie-purple text-white py-4 px-6 rounded-2xl hover:from-pookie-purple hover:to-pookie-pink transition-all duration-300 font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center">
+                    <span id="loginButtonText" class="flex items-center">
+                        <i class="fas fa-heart mr-2"></i>Sign In to Pookie Land
+                    </span>
+                    <div id="loginSpinner" class="hidden flex items-center">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>Entering Pookie Land...
+                    </div>
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="text-center mt-8 pt-6 border-t border-pookie-pink/20">
+                <p class="text-xs text-gray-500">
+                    <i class="fas fa-shield-alt mr-1 text-pookie-mint"></i>
+                    Secured with Firebase & Pookie Magic <span class="font-emoji">✨</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application (Initially hidden) -->
+    <div id="mainApp" class="hidden min-h-screen relative z-10">
+        <!-- Header -->
+        <header class="bg-white/95 backdrop-blur-lg shadow-lg border-b-2 border-pookie-pink/20 sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo and Title -->
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-pookie-pink to-pookie-purple rounded-2xl flex items-center justify-center shadow-lg animate-bounce-soft">
+                            <i class="fas fa-heart text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold bg-gradient-to-r from-pookie-pink to-pookie-purple bg-clip-text text-transparent">
+                                NoteNest
+                            </h1>
+                            <p class="text-sm text-gray-600">Your pookie notes & gallery <span class="font-emoji">🌸</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Header Actions -->
+                    <div class="flex items-center space-x-3">
+                        <button id="logoutBtn" class="p-3 rounded-2xl bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-600 hover:text-red-700 shadow-md hover:shadow-lg transform hover:scale-105" title="Sign Out">
+                            <i class="fas fa-sign-out-alt text-lg"></i>
+                        </button>
+                        <button id="newNoteBtn" class="bg-gradient-to-r from-pookie-pink to-pookie-purple text-white px-6 py-3 rounded-2xl hover:from-pookie-purple hover:to-pookie-pink transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold">
+                            <i class="fas fa-plus"></i>
+                            <span class="hidden sm:inline">New Pookie Note</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Tab Navigation -->
+            <div class="flex space-x-2 mb-8 bg-white/90 backdrop-blur-lg p-2 rounded-3xl w-fit shadow-lg border-2 border-pookie-pink/20">
+                <button id="notesTab" class="tab-button active px-6 py-3 rounded-2xl transition-all duration-300 flex items-center space-x-2 font-semibold">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Pookie Notes</span>
+                </button>
+                <button id="galleryTab" class="tab-button px-6 py-3 rounded-2xl transition-all duration-300 flex items-center space-x-2 font-semibold">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery</span>
+                </button>
+            </div>
+
+            <!-- Notes Section -->
+            <section id="notesSection" class="tab-content">
+                <!-- Search and Filters -->
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <div class="flex-1 relative">
+                        <input type="text" id="searchInput" placeholder="Search your pookie notes..." 
+                               class="w-full px-6 py-4 border-2 border-pookie-mint/30 rounded-3xl focus:ring-4 focus:ring-pookie-mint/20 focus:border-pookie-mint transition-all duration-300 bg-white/90 backdrop-blur-lg shadow-md text-lg">
+                        <i class="fas fa-search absolute right-6 top-1/2 transform -translate-y-1/2 text-pookie-mint"></i>
+                    </div>
+                    <div class="flex gap-3">
+                        <select id="tagFilter" class="px-4 py-4 border-2 border-pookie-blue/30 rounded-2xl focus:ring-4 focus:ring-pookie-blue/20 focus:border-pookie-blue transition-all duration-300 bg-white/90 backdrop-blur-lg shadow-md font-semibold">
+                            <option value="">All Tags</option>
+                        </select>
+                        <select id="sortBy" class="px-4 py-4 border-2 border-pookie-peach/30 rounded-2xl focus:ring-4 focus:ring-pookie-peach/20 focus:border-pookie-peach transition-all duration-300 bg-white/90 backdrop-blur-lg shadow-md font-semibold">
+                            <option value="updatedAt">Last Updated</option>
+                            <option value="createdAt">Date Created</option>
+                            <option value="title">Title</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notes Grid -->
+                <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Notes will be dynamically inserted here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyNotesState" class="text-center py-16">
+                    <div class="w-32 h-32 mx-auto mb-6 text-pookie-pink animate-bounce-soft">
+                        <i class="fas fa-sticky-note text-8xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">No pookie notes yet! <span class="font-emoji">💕</span></h3>
+                    <p class="text-gray-600 mb-6 text-lg">Create your first adorable note to get started <span class="font-emoji">🌸</span></p>
+                    <button id="createFirstNoteBtn" class="create-first-note bg-gradient-to-r from-pookie-pink to-pookie-purple text-white px-8 py-4 rounded-3xl hover:from-pookie-purple hover:to-pookie-pink transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-bold text-lg">
+                        <i class="fas fa-plus mr-2"></i>Create First Pookie Note
+                    </button>
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section id="gallerySection" class="tab-content hidden">
+                <!-- Gallery Header -->
+                <div class="bg-white/90 backdrop-blur-lg rounded-3xl p-6 shadow-lg border-2 border-pookie-pink/20 mb-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <!-- Breadcrumb -->
+                        <div class="gallery-breadcrumb" id="gallery-breadcrumb">
+                            <span class="breadcrumb-item text-pookie-pink hover:text-pookie-purple cursor-pointer font-semibold">
+                                <i class="fas fa-home mr-1"></i>Home
+                            </span>
+                        </div>
+                        
+                        <!-- Gallery Actions -->
+                        <div class="gallery-actions flex flex-wrap gap-3">
+                            <button class="btn-secondary" id="back-btn">
+                                <i class="fas fa-arrow-left mr-2"></i>Back
+                            </button>
+                            <button class="btn-primary" id="create-folder-btn">
+                                <i class="fas fa-folder-plus mr-2"></i>New Folder
+                            </button>
+                            <button class="btn-primary" id="upload-images-btn">
+                                <i class="fas fa-upload mr-2"></i>Upload Images
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="mt-4">
+                        <div class="relative">
+                            <input type="text" id="gallery-search" placeholder="Search images..." 
+                                   class="w-full px-4 py-3 pl-12 border-2 border-pookie-pink/30 rounded-2xl focus:ring-4 focus:ring-pookie-pink/20 focus:border-pookie-pink transition-all duration-300 bg-white/90">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-pookie-pink"></i>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div id="bulk-actions" class="bulk-actions mt-4 flex gap-3" style="display: none;">
+                        <button class="btn-danger" id="bulk-delete-btn">
+                            <i class="fas fa-trash mr-2"></i>Delete Selected
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="gallery-loading" class="text-center py-16" style="display: none;">
+                    <div class="w-16 h-16 mx-auto mb-4 text-pookie-pink animate-spin">
+                        <i class="fas fa-spinner text-4xl"></i>
+                    </div>
+                    <p class="text-gray-600 text-lg">Loading pookie images... <span class="font-emoji">✨</span></p>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Gallery items will be dynamically inserted here -->
+                </div>
+
+                <!-- Empty Gallery State -->
+                <div id="emptyGalleryState" class="text-center py-16">
+                    <div class="w-32 h-32 mx-auto mb-6 text-pookie-purple animate-float">
+                        <i class="fas fa-images text-8xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">No pookie images yet! <span class="font-emoji">🖼️</span></h3>
+                    <p class="text-gray-600 text-lg">Create folders and upload cute images to get started <span class="font-emoji">📸</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="noteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] flex flex-col border-2 border-pookie-pink/20 relative overflow-hidden animate-slide-up">
+                <!-- Decorative elements -->
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-pookie-purple rounded-full animate-bounce-soft"></div>
+                <div class="absolute -bottom-2 -left-2 w-4 h-4 bg-pookie-mint rounded-full animate-pulse-soft"></div>
+                
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center p-6 border-b-2 border-pookie-pink/20 bg-gradient-to-r from-pookie-rose/20 to-pookie-lavender/20 flex-shrink-0">
+                    <h2 id="modalTitle" class="text-2xl font-bold bg-gradient-to-r from-pookie-pink to-pookie-purple bg-clip-text text-transparent">
+                        <i class="fas fa-plus mr-2"></i>New Pookie Note
+                    </h2>
+                    <button id="closeModal" class="text-gray-400 hover:text-pookie-pink text-2xl transition-all duration-300 transform hover:scale-110 hover:rotate-90 p-2 rounded-full hover:bg-pookie-pink/10">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="p-6 flex-1 overflow-y-auto">
+                    <form id="noteForm" class="space-y-6 h-full">
+                        <div class="relative">
+                            <label for="noteTitle" class="block text-sm font-bold text-gray-700 mb-2">
+                                <i class="fas fa-heading mr-2 text-pookie-pink"></i>Title
+                            </label>
+                            <input type="text" id="noteTitle" required 
+                                   class="w-full px-4 py-3 border-2 border-pookie-pink/30 rounded-2xl focus:ring-4 focus:ring-pookie-pink/20 focus:border-pookie-pink transition-all duration-300 bg-white/90 font-semibold">
+                            <div class="absolute -top-1 -right-1 text-pookie-pink text-xs animate-sparkle font-emoji">💕</div>
+                        </div>
+                        <div class="relative">
+                            <label for="noteTags" class="block text-sm font-bold text-gray-700 mb-2">
+                                <i class="fas fa-tags mr-2 text-pookie-purple"></i>Tags (comma-separated)
+                            </label>
+                            <input type="text" id="noteTags" placeholder="pookie, cute, love, memories" 
+                                   class="w-full px-4 py-3 border-2 border-pookie-purple/30 rounded-2xl focus:ring-4 focus:ring-pookie-purple/20 focus:border-pookie-purple transition-all duration-300 bg-white/90">
+                            <div class="absolute -top-1 -right-1 text-pookie-purple text-xs animate-sparkle">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 relative">
+                            <label for="noteContent" class="block text-sm font-bold text-gray-700 mb-2">
+                                <i class="fas fa-edit mr-2 text-pookie-mint"></i>Content
+                            </label>
+                            <textarea id="noteContent" rows="8" required 
+                                      class="w-full px-4 py-3 border-2 border-pookie-mint/30 rounded-2xl focus:ring-4 focus:ring-pookie-mint/20 focus:border-pookie-mint transition-all duration-300 resize-none h-32 sm:h-48 bg-white/90"></textarea>
+                            <div class="absolute top-8 right-4 text-pookie-mint text-xs animate-sparkle font-emoji">✨</div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="bg-gradient-to-r from-pookie-rose/20 to-pookie-lavender/20 border-t-2 border-pookie-pink/20 p-6 flex-shrink-0">
+                    <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
+                        <button type="button" id="cancelBtn" class="w-full sm:w-auto px-6 py-3 text-gray-700 bg-gray-100 rounded-2xl hover:bg-gray-200 transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:scale-105">
+                            <i class="fas fa-times mr-2"></i>Cancel
+                        </button>
+                        <button type="button" id="deleteBtn" class="w-full sm:w-auto px-6 py-3 text-white bg-gradient-to-r from-red-400 to-red-500 rounded-2xl hover:from-red-500 hover:to-red-600 transition-all duration-300 hidden font-semibold shadow-md hover:shadow-lg transform hover:scale-105">
+                            <i class="fas fa-trash mr-2"></i>Delete Note
+                        </button>
+                        <button type="submit" form="noteForm" id="saveNoteBtn" class="w-full sm:w-auto px-6 py-3 text-white bg-gradient-to-r from-pookie-pink to-pookie-purple rounded-2xl hover:from-pookie-purple hover:to-pookie-pink transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:scale-105">
+                            <i class="fas fa-heart mr-2"></i>Save Pookie Note
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="relative max-w-4xl max-h-full">
+                <button id="closeImageModal" class="absolute top-4 right-4 text-white hover:text-pookie-pink text-3xl z-10 bg-black/50 rounded-full w-12 h-12 flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                    <i class="fas fa-times"></i>
+                </button>
+                <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl">
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center hidden z-40">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-pookie-pink border-t-transparent mb-4"></div>
+            <p class="text-pookie-purple font-semibold text-lg">Loading pookie magic... <span class="font-emoji">✨</span></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="firebase/firebaseConfig.js"></script>
+    <script type="module" src="scripts/spa-auth.js"></script>
+    <script type="module" src="scripts/app.js"></script>
+</body>
 </html>
+
+
+    <!-- Create Folder Modal -->
+    <div id="createFolderModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-folder-plus mr-2 text-pookie-pink"></i>Create New Folder
+                </h2>
+                <button class="modal-close" onclick="hideCreateFolderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="createFolderForm" class="space-y-6">
+                    <div>
+                        <label for="folderName" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-folder mr-2 text-pookie-pink"></i>Folder Name
+                        </label>
+                        <input type="text" id="folderName" required 
+                               class="w-full px-4 py-3 border-2 border-pookie-pink/30 rounded-2xl focus:ring-4 focus:ring-pookie-pink/20 focus:border-pookie-pink transition-all duration-300 bg-white/90"
+                               placeholder="Enter folder name">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-map-marker-alt mr-2 text-pookie-purple"></i>Location
+                        </label>
+                        <div class="text-sm text-gray-600 bg-gray-50 p-3 rounded-xl">
+                            <span id="currentPathDisplay">Home</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="hideCreateFolderModal()">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button type="submit" form="createFolderForm" class="btn-primary">
+                    <i class="fas fa-folder-plus mr-2"></i>Create Folder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Images Modal -->
+    <div id="uploadModal" class="modal-overlay hidden">
+        <div class="modal-container modal-large">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-upload mr-2 text-pookie-pink"></i>Upload Images
+                </h2>
+                <button class="modal-close" onclick="hideUploadModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="uploadForm" class="space-y-6">
+                    <!-- File Upload Area -->
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt text-6xl text-pookie-pink mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Drop images here or click to browse</h3>
+                            <p class="text-gray-600 mb-4">Support for multiple files (JPG, PNG, GIF, WebP)</p>
+                            <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+                            <button type="button" class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-folder-open mr-2"></i>Choose Files
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected Files -->
+                    <div id="selectedFiles" class="selected-files hidden">
+                        <h4 class="font-semibold text-gray-800 mb-3">Selected Files:</h4>
+                        <div id="filesList" class="space-y-2 max-h-40 overflow-y-auto"></div>
+                    </div>
+                    
+                    <!-- Upload Location -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-map-marker-alt mr-2 text-pookie-purple"></i>Upload Location
+                        </label>
+                        <div class="text-sm text-gray-600 bg-gray-50 p-3 rounded-xl">
+                            <span id="uploadPathDisplay">Home</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Metadata -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="uploadTags" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-tags mr-2 text-pookie-mint"></i>Tags (comma-separated)
+                            </label>
+                            <input type="text" id="uploadTags" 
+                                   class="w-full px-4 py-3 border-2 border-pookie-mint/30 rounded-2xl focus:ring-4 focus:ring-pookie-mint/20 focus:border-pookie-mint transition-all duration-300 bg-white/90"
+                                   placeholder="pookie, cute, memories">
+                        </div>
+                        
+                        <div>
+                            <label for="uploadCategory" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-layer-group mr-2 text-pookie-peach"></i>Category
+                            </label>
+                            <select id="uploadCategory" 
+                                    class="w-full px-4 py-3 border-2 border-pookie-peach/30 rounded-2xl focus:ring-4 focus:ring-pookie-peach/20 focus:border-pookie-peach transition-all duration-300 bg-white/90">
+                                <option value="">Select category</option>
+                                <option value="personal">Personal</option>
+                                <option value="work">Work</option>
+                                <option value="travel">Travel</option>
+                                <option value="memories">Memories</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Progress -->
+                    <div id="uploadProgress" class="upload-progress hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-semibold text-gray-700">Uploading...</span>
+                            <span id="progressText" class="text-sm text-pookie-pink">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div id="progressBar" class="bg-gradient-to-r from-pookie-pink to-pookie-purple h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="hideUploadModal()">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button type="submit" form="uploadForm" class="btn-primary" id="uploadBtn" disabled>
+                    <i class="fas fa-upload mr-2"></i>Upload Images
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Metadata Modal -->
+    <div id="metadataModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-edit mr-2 text-pookie-pink"></i>Edit Image Metadata
+                </h2>
+                <button class="modal-close" onclick="hideMetadataModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="metadataForm" class="space-y-6">
+                    <input type="hidden" id="metadataFileId">
+                    
+                    <!-- Image Preview -->
+                    <div class="text-center">
+                        <img id="metadataImagePreview" class="max-w-full max-h-48 rounded-2xl shadow-lg mx-auto" alt="Image preview">
+                        <p id="metadataFileName" class="text-sm text-gray-600 mt-2 font-semibold"></p>
+                    </div>
+                    
+                    <div>
+                        <label for="metadataTags" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-tags mr-2 text-pookie-mint"></i>Tags (comma-separated)
+                        </label>
+                        <input type="text" id="metadataTags" 
+                               class="w-full px-4 py-3 border-2 border-pookie-mint/30 rounded-2xl focus:ring-4 focus:ring-pookie-mint/20 focus:border-pookie-mint transition-all duration-300 bg-white/90"
+                               placeholder="pookie, cute, memories">
+                    </div>
+                    
+                    <div>
+                        <label for="metadataCategory" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-layer-group mr-2 text-pookie-peach"></i>Category
+                        </label>
+                        <select id="metadataCategory" 
+                                class="w-full px-4 py-3 border-2 border-pookie-peach/30 rounded-2xl focus:ring-4 focus:ring-pookie-peach/20 focus:border-pookie-peach transition-all duration-300 bg-white/90">
+                            <option value="">Select category</option>
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="travel">Travel</option>
+                            <option value="memories">Memories</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="metadataDescription" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-comment mr-2 text-pookie-purple"></i>Description
+                        </label>
+                        <textarea id="metadataDescription" rows="3" 
+                                  class="w-full px-4 py-3 border-2 border-pookie-purple/30 rounded-2xl focus:ring-4 focus:ring-pookie-purple/20 focus:border-pookie-purple transition-all duration-300 bg-white/90 resize-none"
+                                  placeholder="Add a description for this image..."></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="hideMetadataModal()">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button type="submit" form="metadataForm" class="btn-primary">
+                    <i class="fas fa-save mr-2"></i>Save Metadata
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-auth-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-firestore-compat.min.js"></script>
+    <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.js"></script>
+    <script src="firebase/firebaseConfig.js"></script>
+    <script src="scripts/spa-auth.js"></script>
+    <script src="scripts/vercel-imagekit-manager.js"></script>
+    <script src="scripts/gallery-modals.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
+

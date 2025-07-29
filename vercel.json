@@ -1,18 +1,30 @@
 {
   "functions": {
-    "api/auth.js": {
-      "runtime": "nodejs18.x"
+    "api/imagekit-auth.py": {
+      "runtime": "@vercel/python"
     },
-    "api/delete-image.js": {
-      "runtime": "nodejs18.x"
+    "api/create-folder.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/list-assets.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/delete-file.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/delete-folder.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/bulk-delete.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/update-metadata.py": {
+      "runtime": "@vercel/python"
+    },
+    "api/search-files.py": {
+      "runtime": "@vercel/python"
     }
   },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",

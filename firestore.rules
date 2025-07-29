@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Function to check if user email is whitelisted
+    function isWhitelisted() {
+      return isAuthenticated() && 
+             request.auth.token.email in [
+               'raffsun11@gmail.com',
+               'raffu794@gmail.com',
+               'me.monira@outlook.com'
+             ];
+    }
+    
+    // Notes collection - only whitelisted users can access
+    match /notes/{noteId} {
+      allow read, write: if isWhitelisted();
+    }
+    
+    // Optional: User profiles collection (if needed in the future)
+    match /users/{userId} {
+      allow read, write: if isWhitelisted() && request.auth.uid == userId;
+    }
+    
+    // Optional: Whitelist collection for dynamic management (admin only)
+    match /whitelist/{email} {
+      allow read: if isWhitelisted();
+      // Only allow writes from specific admin emails if needed
+      allow write: if false; // Disable for now - manage via Firebase Console
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
